@@ -1,0 +1,33 @@
+FROM mcr.microsoft.com/dotnet/aspnet:10.0 AS base
+WORKDIR /app
+EXPOSE 8080
+ENV ASPNETCORE_URLS=http://+:8080
+
+
+FROM mcr.microsoft.com/dotnet/sdk:10.0 AS build
+WORKDIR /src
+
+
+COPY ["Veterinaria.MVC/Veterinaria.MVC.csproj", "Veterinaria.MVC/"]
+COPY ["API_Consumer/API_Consumer.csproj", "API_Consumer/"]
+COPY ["Veterinaria.Modelos/Veterinaria.Modelos.csproj", "Veterinaria.Modelos/"]
+COPY ["Veterinaria.Servicios/Veterinaria.Servicios.csproj", "Veterinaria.Servicios/"]
+
+
+RUN dotnet restore "Veterinaria.MVC/Veterinaria.MVC.csproj"
+
+
+COPY . .
+
+
+WORKDIR "/src/Veterinaria.MVC"
+RUN dotnet build "Veterinaria.MVC.csproj" -c Release -o /app/build
+
+FROM build AS publish
+# El flag ErrorOnDuplicatePublishOutputFiles=false es CLAVE para evitar el error de los JSON duplicados
+RUN dotnet publish "Veterinaria.MVC.csproj" -c Release -o /app/publish /p:UseAppHost=false /p:ErrorOnDuplicatePublishOutputFiles=false
+
+FROM base AS final
+WORKDIR /app
+COPY --from=publish /app/publish .
+ENTRYPOINT ["dotnet", "Veterinaria.MVC.dll"]
