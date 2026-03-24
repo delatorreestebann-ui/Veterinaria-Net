@@ -1,0 +1,10 @@
+<Solution>
+  <Folder Name="/Elementos de la solución/">
+    <File Path="DockerFile.API" />
+  </Folder>
+  <Project Path="API_Consumer/API_Consumer.csproj" Id="77f40bea-f718-4625-9831-8769bc3f9e5a" />
+  <Project Path="Veterinaria.API/Veterinaria.API.csproj" />
+  <Project Path="Veterinaria.Modelos/Veterinaria.Modelos.csproj" />
+  <Project Path="Veterinaria.MVC/Veterinaria.MVC.csproj" Id="aa6614ba-a00d-4401-8487-4ddbc121abce" />
+  <Project Path="Veterinaria.Servicios/Veterinaria.Servicios.csproj" Id="2379f04d-75c2-48f2-8116-3366ae226c63" />
+</Solution>
