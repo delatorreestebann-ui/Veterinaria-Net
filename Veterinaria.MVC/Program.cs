@@ -4,7 +4,7 @@ using Veterinaria.Modelos;
 using API_Consumer;
 
 // Configuración del Endpoint
-Crud<PersonalAdministrativos>.EndPoint = "https://localhost:7297/api/PersonalAdministrativos";
+Crud<PersonalAdministrativos>.EndPoint = "https://veterinaria-net.onrender.com/api/PersonalAdministrativos";
 
 var builder = WebApplication.CreateBuilder(args);
 
