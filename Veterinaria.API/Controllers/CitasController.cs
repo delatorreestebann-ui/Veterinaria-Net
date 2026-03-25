@@ -25,14 +25,29 @@ namespace Veterinaria.API.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Citas>>> GetCitas()
         {
-            return await _context.Citas.ToListAsync();
+            var citas = await _context.Citas
+                .Include(m => m.Mascota)
+                .ThenInclude(d=> d.Dueño)
+                .Include(m=>m.Mascota)
+                .ThenInclude(e=>e.Especie).
+                Include(p=>p.PersonalAdministrativo)
+                .Include(h=>h.Horario)
+                .Include(tc=>tc.TipoCita)
+                 .ToListAsync();
+            return citas;
         }
 
         // GET: api/Citas/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Citas>> GetCitas(int id)
         {
-            var citas = await _context.Citas.FindAsync(id);
+            var citas = await _context.Citas.Include(m => m.Mascota)
+                .ThenInclude(d => d.Dueño)
+                .Include(m => m.Mascota)
+                .ThenInclude(e => e.Especie).
+                Include(p => p.PersonalAdministrativo)
+                .Include(h => h.Horario)
+                .Include(tc => tc.TipoCita).FirstOrDefaultAsync(c => c.Id == id);
 
             if (citas == null)
             {
